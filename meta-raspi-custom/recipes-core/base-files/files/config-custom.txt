@@ -1,0 +1,68 @@
+# Custom Raspberry Pi boot configuration
+# This file will be appended to config.txt
+
+# ==============================================================================
+# HARDWARE INTERFACE ENABLEMENT
+# ==============================================================================
+
+# Enable I2C interface
+dtparam=i2c_arm=on
+dtparam=i2c1=on
+
+# Enable SPI interface  
+dtparam=spi=on
+
+# Enable GPIO
+dtparam=gpio=on
+
+# Enable PWM
+dtparam=pwm=on
+
+# ==============================================================================
+# CAMERA CONFIGURATION
+# ==============================================================================
+
+# Enable camera interface
+dtparam=camera=on
+start_x=1
+gpu_mem=128
+
+# ==============================================================================
+# AUDIO CONFIGURATION
+# ==============================================================================
+
+# Enable audio
+dtparam=audio=on
+
+# ==============================================================================
+# UART CONFIGURATION
+# ==============================================================================
+
+# Enable UART (disable if using Bluetooth)
+enable_uart=1
+
+# ==============================================================================
+# PERFORMANCE SETTINGS
+# ==============================================================================
+
+# GPU memory split (adjust based on your needs)
+# gpu_mem=64    # Minimal GPU usage
+# gpu_mem=128   # Moderate GPU usage (camera, basic graphics)
+# gpu_mem=256   # Heavy GPU usage (video processing, advanced graphics)
+
+# ARM frequency (uncomment to overclock - use with caution)
+# arm_freq=1500
+
+# ==============================================================================
+# DEVICE TREE OVERLAYS
+# ==============================================================================
+
+# Load custom device tree overlays
+dtoverlay=i2c-enable
+dtoverlay=spi-enable
+
+# Common sensor overlays (uncomment as needed)
+# dtoverlay=w1-gpio                    # 1-Wire interface
+# dtoverlay=hifiberry-dac              # HiFiBerry DAC
+# dtoverlay=adafruit-pitft-28-resistive # Adafruit PiTFT
+# dtoverlay=mcp2515-can0               # CAN bus interface

@@ -1,0 +1,103 @@
+# Yocto Project .gitignore
+
+# ==============================================================================
+# UPSTREAM REPOSITORIES (External dependencies - don't track these)
+# ==============================================================================
+# These are cloned from external sources and should be downloaded fresh
+poky/
+meta-raspberrypi/
+
+# Custom meta layers (TRACK THESE - they contain your customizations)
+# meta-*/                    # Comment this out to track custom layers
+!meta-raspi-custom/           # Explicitly track our custom layer
+
+# ==============================================================================
+# BUILD DIRECTORIES AND ARTIFACTS
+# ==============================================================================
+# Build output directories (created by bitbake)
+build/
+rpi-build/
+build-*/
+
+# Temporary build files and artifacts
+tmp/
+cache/
+conf/sanity_info
+
+# ==============================================================================
+# DOWNLOAD AND CACHE DIRECTORIES
+# ==============================================================================
+# Shared download cache (can be large, machine-specific)
+downloads/
+DL_DIR/
+
+# Shared state cache (machine-specific, can be regenerated)
+sstate-cache/
+SSTATE_DIR/
+
+# Build logs and debugging info
+build-logs/
+logs/
+
+# ==============================================================================
+# YOCTO-SPECIFIC FILES
+# ==============================================================================
+# BitBake cache files
+.cache/
+
+# SDK and toolchain files
+sdk/
+toolchain/
+
+# Image output files (usually large)
+*.wic
+*.wic.bz2
+*.wic.bmap
+*.img
+*.iso
+*.tar.bz2
+*.tar.gz
+*.tar.xz
+*.rootfs.*
+
+# ==============================================================================
+# SYSTEM AND EDITOR FILES
+# ==============================================================================
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+*~
+*.swp
+*.swo
+*.tmp
+.vscode/
+.idea/
+*.sublime-*
+
+# Environment files (may contain sensitive info)
+.env
+.env.local
+
+# ==============================================================================
+# PERSONAL/LOCAL CONFIGURATION
+# ==============================================================================
+# Local configuration overrides
+local.conf.backup
+*-backup
+*.orig
+
+# Personal build scripts (if any)
+personal-*.sh
+
+# Temporary files
+*.log
+*.pid
+*.seed
+*.pid.lock
