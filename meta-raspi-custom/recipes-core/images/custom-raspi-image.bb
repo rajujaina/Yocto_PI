@@ -17,61 +17,39 @@ IMAGE_FEATURES += " \
 # Additional packages for hardware interface support
 IMAGE_INSTALL += " \
     i2c-tools \
-    spitools \
-    gpio-utils \
     python3 \
-    python3-pip \
-    python3-smbus \
-    python3-spidev \
-    python3-rpi-gpio \
-    my-custom-app \
     kernel-modules \
-    kernel-module-i2c-dev \
-    kernel-module-spi-bcm2835 \
-    kernel-module-spidev \
-    dtc \
 "
 
 # Development tools
 IMAGE_INSTALL += " \
-    gcc \
-    g++ \
     make \
-    cmake \
     git \
     vim \
-    nano \
-    htop \
-    strace \
-    gdb \
-    valgrind \
 "
 
 # Network tools
 IMAGE_INSTALL += " \
-    curl \
-    wget \
     openssh \
-    dropbear \
-    wpa-supplicant \
-    iw \
-    wireless-regdb \
-    wireless-tools \
 "
 
-# Multimedia and camera support
-IMAGE_INSTALL += " \
-    v4l-utils \
-    media-ctl \
-    ffmpeg \
-"
+# Multimedia and camera support (disabled for minimal build)
+# IMAGE_INSTALL += " \
+#     v4l-utils \
+#     media-ctl \
+#     ffmpeg \
+# "
 
-# Set root filesystem size (in KB) - adjust as needed
-IMAGE_ROOTFS_SIZE = "2097152"  # 2GB
+# Set root filesystem size (in KB) - adjust as needed (2GB)
+IMAGE_ROOTFS_SIZE = "2097152"
 
-# Set root password for debug builds (remove in production)
+# Create pi user with password: 1234
+# Root is also enabled with same password
 inherit extrausers
-EXTRA_USERS_PARAMS = "usermod -p '\$6\$rounds=4096\$salt\$raspi123' root;"
+EXTRA_USERS_PARAMS = " \
+    usermod -p '\$1\$obm0/KCQ\$aohbe.LhE4Q8aKI963Pso/' root; \
+    useradd -p '\$1\$obm0/KCQ\$aohbe.LhE4Q8aKI963Pso/' -G sudo,i2c,spi,gpio -m pi; \
+"
 
 # Post-installation scripts
 ROOTFS_POSTPROCESS_COMMAND += "setup_hardware_interfaces; "

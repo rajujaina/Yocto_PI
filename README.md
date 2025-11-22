@@ -5,7 +5,7 @@ A comprehensive Yocto Project setup for building custom Linux images for Raspber
 ## 🚀 Quick Start
 
 ### Prerequisites
-- **Operating System**: Ubuntu 24.04 LTS (tested) or compatible Debian-based system
+- **Operating System**: Ubuntu 24.04 LTS WSL (tested) or compatible Debian-based system
 - **Hardware Requirements**:
   - 50GB+ free disk space
   - 8GB+ RAM (16GB+ recommended)

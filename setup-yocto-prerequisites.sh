@@ -332,8 +332,8 @@ set -e
 
 # Default values
 MACHINE=${1:-raspberrypi4-64}
-IMAGE=${2:-core-image-base}
-BUILD_DIR="rpi-build"
+IMAGE=${2:-core-image-minimal}
+BUILD_DIR="build-${MACHINE}-${IMAGE}"
 
 echo "Building Yocto image..."
 echo "Machine: $MACHINE"
@@ -382,7 +382,16 @@ echo "Starting build for $IMAGE..."
 time bitbake $IMAGE
 
 echo "Build completed successfully!"
-echo "Image location: tmp/deploy/images/$MACHINE/"
+echo "Image location: ${BUILD_DIR}/tmp/deploy/images/${MACHINE}/"
+echo ""
+echo "Key files generated:"
+echo "  - SD card image: ${BUILD_DIR}/tmp/deploy/images/${MACHINE}/${IMAGE}-${MACHINE}.wic.bz2"
+echo "  - Root filesystem: ${BUILD_DIR}/tmp/deploy/images/${MACHINE}/${IMAGE}-${MACHINE}.ext3"
+echo "  - Kernel: ${BUILD_DIR}/tmp/deploy/images/${MACHINE}/Image-${MACHINE}.bin"
+echo ""
+echo "To flash to SD card:"
+echo "  bunzip2 -k ${BUILD_DIR}/tmp/deploy/images/${MACHINE}/${IMAGE}-${MACHINE}.wic.bz2"
+echo "  sudo dd if=${BUILD_DIR}/tmp/deploy/images/${MACHINE}/${IMAGE}-${MACHINE}.wic of=/dev/sdX bs=4M status=progress"
 EOF
     
     chmod +x build-yocto.sh

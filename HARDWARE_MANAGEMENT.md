@@ -248,6 +248,32 @@ IMAGE_INSTALL += " \
 
 ## 🔍 Debugging
 
+### Common Build Issues
+
+#### Network Connectivity Problems (WSL2)
+If you get connectivity check errors:
+```bash
+# Add to conf/local.conf in build directory
+CONNECTIVITY_CHECK_URIS = "https://www.google.com/"
+SANITY_TESTED_DISTROS = ""
+```
+
+#### Checksum Mismatches
+If you get checksum mismatch errors for raspberry pi bootfiles:
+```bash
+# Create bbappend file: meta-raspi-custom/recipes-bsp/bootfiles/rpi-bootfiles.bbappend
+SRC_URI[sha256sum] = "4fab0fe9e6ffc35c864d60bbcd17091fc3cd49ed48c5176ca7b2b826cdff43f6"
+```
+
+#### Clean Failed Recipes
+```bash
+# Clean specific recipe and retry
+source yocto-env.sh
+source poky/oe-init-build-env rpi-build
+bitbake -c cleanall <recipe-name>
+bitbake <image-name>
+```
+
 ### Check Kernel Modules
 ```bash
 lsmod | grep -E "i2c|spi|gpio"

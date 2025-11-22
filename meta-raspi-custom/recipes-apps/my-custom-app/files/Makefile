@@ -1,4 +1,4 @@
-CC = gcc
+CC ?= gcc
 CFLAGS = -Wall -O2
 TARGET = raspi-hw-test
 SOURCE = raspi-hw-test.c

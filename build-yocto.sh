@@ -7,11 +7,11 @@ set -e
 
 # Default values
 MACHINE=${1:-raspberrypi4-64}
-IMAGE=${2:-custom-raspi-image}
-BUILD_DIR="rpi-build"
+IMAGE=${2:-core-image-minimal}
+BUILD_DIR="build-${MACHINE}-${IMAGE}"
 
 echo "Building Yocto image..."
-echo "Machine: $MACHINE"
+echo "Machine: $MACHINE"  
 echo "Image: $IMAGE"
 echo "Build Directory: $BUILD_DIR"
 
@@ -49,6 +49,14 @@ ENABLE_I2C = "1"
 ENABLE_SPI = "1"
 ENABLE_UART = "1"
 
+# Network connectivity fix for WSL2/restricted networks
+# Disable connectivity check since we have sources cached
+BB_NO_NETWORK = "0"
+CONNECTIVITY_CHECK_URIS = ""
+
+# Skip network check if all sources are cached
+SANITY_TESTED_DISTROS = ""
+
 EOL
 fi
 
@@ -67,4 +75,13 @@ echo "Starting build for $IMAGE..."
 time bitbake $IMAGE
 
 echo "Build completed successfully!"
-echo "Image location: tmp/deploy/images/$MACHINE/"
+echo "Image location: ${BUILD_DIR}/tmp/deploy/images/${MACHINE}/"
+echo ""
+echo "Key files generated:"
+echo "  - SD card image: ${BUILD_DIR}/tmp/deploy/images/${MACHINE}/${IMAGE}-${MACHINE}.wic.bz2"
+echo "  - Root filesystem: ${BUILD_DIR}/tmp/deploy/images/${MACHINE}/${IMAGE}-${MACHINE}.ext3"
+echo "  - Kernel: ${BUILD_DIR}/tmp/deploy/images/${MACHINE}/Image-${MACHINE}.bin"
+echo ""
+echo "To flash to SD card:"
+echo "  bunzip2 -k ${BUILD_DIR}/tmp/deploy/images/${MACHINE}/${IMAGE}-${MACHINE}.wic.bz2"
+echo "  sudo dd if=${BUILD_DIR}/tmp/deploy/images/${MACHINE}/${IMAGE}-${MACHINE}.wic of=/dev/sdX bs=4M status=progress"
